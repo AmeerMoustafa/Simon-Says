@@ -30,15 +30,28 @@ const levelOne = () => {
   level_title.text("Level 1");
   const random_index = Math.floor(Math.random() * game_buttons.length);
   const selected_button = $(game_buttons[random_index]);
+  console.log(selected_button);
 
   playAudio(selected_button).play();
 
-  const toggle_press = () => {
-    selected_button.toggleClass("pressed");
+  const togglePress = (toToggle) => {
+    const toggleButton = () => toToggle.toggleClass("pressed");
+    toggleButton();
+    setTimeout(toggleButton, 100);
   };
 
-  toggle_press();
-  setTimeout(toggle_press, 100);
+  togglePress(selected_button);
+
+  $(`.green, .red, .yellow, .blue`).on("click", (e) => {
+    const clicked_button = $(e.target);
+    console.log(clicked_button);
+    togglePress(clicked_button);
+    playAudio(clicked_button).play();
+    const isEqual = $(selected_button).is(e.target);
+    if (isEqual) {
+      console.log("It works!");
+    }
+  });
 };
 
 const gameStart = () => {
