@@ -45,16 +45,35 @@ const togglePress = (toToggle) => {
   setTimeout(button_toggle, 100);
 };
 
-// A reusable function to compare the values of two arrays
+// A reusable function to compare what the player clicked vs the required click
 
-const compareResults = (player, required) => {
-  return player.toString() === required.toString();
+const compareResults = () => {
+  return (
+    player_clicks[player_clicks.length - 1].toString() ===
+    required_clicks[player_clicks.length - 1].toString()
+  );
+};
+
+// A function to end the game
+
+const gameOver = () => {
+  level_title.innerHTML = "Game Over, Press Any Key to Restart";
+
+  document_body.classList.toggle("game-over");
+  const background_audio = new Audio("../sounds/wrong.mp3");
+
+  setTimeout(() => {
+    document_body.classList.toggle("game-over");
+    background_audio.play();
+  }, 100);
+
+  level_count = 1;
 };
 
 // Level functions
 
-const levelOne = () => {
-  level_title.innerText = "Level 1";
+const level = () => {
+  level_title.innerText = `Level ${level_count}`;
   const random_index = Math.floor(Math.random() * game_buttons.length);
   const selected_button = game_buttons[random_index];
 
@@ -65,16 +84,30 @@ const levelOne = () => {
 
   const handleClick = (e) => {
     click_count++;
+
     const clicked_button = e.target;
     togglePress(clicked_button);
     playAudio(clicked_button).play();
 
     player_clicks.push(clicked_button.id);
 
+    const results = compareResults();
+
+    if (!results) {
+      gameOver();
+    }
+
     if (click_count >= level_count) {
       game_buttons.forEach((button) => {
         button.removeEventListener("click", handleClick);
       });
+    }
+
+    if (required_clicks.length === player_clicks.length) {
+      click_count = 0;
+      level_count++;
+      player_clicks.length = 0;
+      setTimeout(level, 1000);
     }
   };
 
@@ -84,7 +117,9 @@ const levelOne = () => {
 };
 
 const gameStart = () => {
-  document_body.addEventListener("keypress", levelOne);
+  document_body.addEventListener("keypress", () => {
+    level();
+  });
 };
 
 gameStart();
