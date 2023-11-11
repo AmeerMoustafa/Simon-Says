@@ -11,11 +11,6 @@ const document_body = document.getElementsByTagName("body")[0];
 const level_title = document.getElementById("level-title");
 const game_buttons = document.querySelectorAll(".btn");
 
-const green_btn = document.getElementsByClassName("green")[0];
-const red_btn = document.getElementsByClassName("red")[0];
-const yellow_btn = document.getElementsByClassName("yellow")[0];
-const blue_btn = document.getElementsByClassName("blue")[0];
-
 // Reusable Helper Functions
 
 // A function to handle audio depending on the selected button
@@ -72,6 +67,11 @@ const gameOver = () => {
   player_clicks.length = 0;
   required_clicks.length = 0;
   click_count = 0;
+
+  // resetting game
+  setTimeout(() => {
+    document_body.addEventListener("keypress", () => level);
+  });
 };
 
 // Level function
@@ -121,9 +121,7 @@ const level = () => {
 };
 
 const gameStart = () => {
-  document_body.addEventListener("keypress", level);
-
-  document_body.removeEventListener("keypress", level);
+  document_body.addEventListener("keypress", level, { once: true });
 };
 
 gameStart();
