@@ -2,6 +2,10 @@
 let player_clicks = [];
 let required_clicks = [];
 
+// To keep track of button clicks and which level we're on
+let click_count = 0;
+let level_count = 1;
+
 // Global Variables to select DOM elements
 const document_body = document.getElementsByTagName("body")[0];
 const level_title = document.getElementById("level-title");
@@ -58,19 +62,26 @@ const levelOne = () => {
   playAudio(selected_button).play();
 
   required_clicks.push(selected_button.id);
-};
 
-//Binding necessary logic to game buttons
-
-game_buttons.forEach((button) => {
-  button.addEventListener("click", (e) => {
+  const handleClick = (e) => {
+    click_count++;
     const clicked_button = e.target;
     togglePress(clicked_button);
     playAudio(clicked_button).play();
 
     player_clicks.push(clicked_button.id);
+
+    if (click_count >= level_count) {
+      game_buttons.forEach((button) => {
+        button.removeEventListener("click", handleClick);
+      });
+    }
+  };
+
+  game_buttons.forEach((button) => {
+    button.addEventListener("click", handleClick);
   });
-});
+};
 
 const gameStart = () => {
   document_body.addEventListener("keypress", levelOne);
