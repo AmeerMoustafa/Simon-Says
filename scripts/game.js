@@ -1,6 +1,7 @@
 // Two arrays to compare results
 let player_clicks = [];
 let required_clicks = [];
+let gameStarted = false;
 
 // To keep track of button clicks and which level we're on
 let click_count = 0;
@@ -26,7 +27,6 @@ const playAudio = (selectedButton) => {
   } else if (selectedButton.classList.contains("blue")) {
     audio = new Audio("../sounds/blue.mp3");
   }
-
   return audio;
 };
 
@@ -50,10 +50,7 @@ const compareResults = () => {
 };
 
 // Level function
-
-const level = () => {
-  level_title.innerText = `Level ${level_count}`;
-
+function generate() {
   // get a random button to flash on screen for the user to click and push it to the required array
   const random_index = Math.floor(Math.random() * game_buttons.length);
   const selected_button = game_buttons[random_index];
@@ -62,8 +59,9 @@ const level = () => {
   playAudio(selected_button).play();
 
   required_clicks.push(selected_button.id);
-
-  const handleClick = (e) => {
+}
+const handleClick = (e) => {
+  if (gameStarted) {
     click_count++;
 
     const clicked_button = e.target;
@@ -95,10 +93,19 @@ const level = () => {
         setTimeout(level, 1000);
       }
     }
-  };
+  }
+};
+
+const level = () => {
+  level_title.innerText = `Level ${level_count}`;
+
+  generate();
+
+  handleClick;
 
   game_buttons.forEach((button) => {
     button.addEventListener("click", handleClick);
+    gameStarted = true;
   });
 };
 
@@ -120,7 +127,7 @@ const gameOver = () => {
   player_clicks.length = 0;
   required_clicks.length = 0;
   click_count = 0;
-
+  gameStarted = false;
   // starting a new game
   document_body.addEventListener("keypress", level, { once: true });
 };
