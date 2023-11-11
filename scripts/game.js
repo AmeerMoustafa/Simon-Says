@@ -67,10 +67,14 @@ const gameOver = () => {
     background_audio.play();
   }, 100);
 
-  level_count = 1;
+  // Resetting necessary variables before starting a new game.
+  level_count = 0;
+  player_clicks.length = 0;
+  required_clicks.length = 0;
+  click_count = 0;
 };
 
-// Level functions
+// Level function
 
 const level = () => {
   level_title.innerText = `Level ${level_count}`;
@@ -117,9 +121,9 @@ const level = () => {
 };
 
 const gameStart = () => {
-  document_body.addEventListener("keypress", () => {
-    level();
-  });
+  document_body.addEventListener("keypress", level);
+
+  document_body.removeEventListener("keypress", level);
 };
 
 gameStart();
