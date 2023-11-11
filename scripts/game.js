@@ -1,3 +1,7 @@
+// Two arrays to compare results
+let playerClicks = [];
+let requiredClicks = [];
+
 // Global Variables to select DOM elements
 const document_body = $("body");
 const level_title = $("#level-title");
