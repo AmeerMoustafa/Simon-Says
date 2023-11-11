@@ -49,35 +49,12 @@ const compareResults = () => {
   );
 };
 
-// A function to end the game
-
-const gameOver = () => {
-  level_title.innerHTML = "Game Over, Press Any Key to Restart";
-
-  document_body.classList.toggle("game-over");
-  const background_audio = new Audio("../sounds/wrong.mp3");
-
-  setTimeout(() => {
-    document_body.classList.toggle("game-over");
-    background_audio.play();
-  }, 100);
-
-  // Resetting necessary variables before starting a new game.
-  level_count = 0;
-  player_clicks.length = 0;
-  required_clicks.length = 0;
-  click_count = 0;
-
-  // resetting game
-  setTimeout(() => {
-    document_body.addEventListener("keypress", () => level);
-  });
-};
-
 // Level function
 
 const level = () => {
   level_title.innerText = `Level ${level_count}`;
+
+  // get a random button to flash on screen for the user to click and push it to the required array
   const random_index = Math.floor(Math.random() * game_buttons.length);
   const selected_button = game_buttons[random_index];
 
@@ -97,21 +74,26 @@ const level = () => {
 
     const results = compareResults();
 
-    if (!results) {
-      gameOver();
-    }
-
+    // cleaning up button event listeners when a level is cleared to avoid unexpected behavior
     if (click_count >= level_count) {
       game_buttons.forEach((button) => {
         button.removeEventListener("click", handleClick);
       });
     }
 
-    if (required_clicks.length === player_clicks.length) {
-      click_count = 0;
-      level_count++;
-      player_clicks.length = 0;
-      setTimeout(level, 1000);
+    // If the user clicks the wrong button, run the gameOver function
+
+    // If the player does not click a wrong button, move to the next level.
+
+    if (!results) {
+      gameOver();
+    } else {
+      if (required_clicks.length === player_clicks.length) {
+        click_count = 0;
+        level_count++;
+        player_clicks.length = 0;
+        setTimeout(level, 1000);
+      }
     }
   };
 
@@ -119,6 +101,31 @@ const level = () => {
     button.addEventListener("click", handleClick);
   });
 };
+
+// A function to end the game
+
+const gameOver = () => {
+  level_title.innerHTML = "Game Over, Press Any Key to Restart";
+
+  document_body.classList.toggle("game-over");
+  const background_audio = new Audio("../sounds/wrong.mp3");
+
+  setTimeout(() => {
+    document_body.classList.toggle("game-over");
+    background_audio.play();
+  }, 100);
+
+  // Resetting necessary variables before starting a new game.
+  level_count = 1;
+  player_clicks.length = 0;
+  required_clicks.length = 0;
+  click_count = 0;
+
+  // starting a new game
+  document_body.addEventListener("keypress", level, { once: true });
+};
+
+// Initial function to start the game
 
 const gameStart = () => {
   document_body.addEventListener("keypress", level, { once: true });
