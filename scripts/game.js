@@ -9,6 +9,9 @@ let gameStarted = false;
 let click_count = 0;
 let level_count = 1;
 
+// keeping track of the high score
+let high_score = 0;
+
 // Global Variables to select DOM elements
 const document_body = document.getElementsByTagName("body")[0];
 const level_title = document.getElementById("level-title");
@@ -89,12 +92,20 @@ const gameOver = () => {
 
 /// Main functions ///
 
+const updateHighScore = () => {
+  let current_high_score = document.getElementById("high-score");
+  level_count > high_score ? high_score++ : null;
+  current_high_score.innerText = `${high_score}`;
+};
+
 // Check the comparison of both arrays, if they are not equal. End the game else continue to the next level.
 const checkResults = (results) => {
   if (!results) {
     gameOver();
   } else {
     if (required_clicks.length === player_clicks.length) {
+      //updating high score
+      updateHighScore();
       click_count = 0;
       level_count++;
       player_clicks.length = 0;
