@@ -89,6 +89,20 @@ const gameOver = () => {
 
 /// Main functions ///
 
+// Check the comparison of both arrays, if they are not equal. End the game else continue to the next level.
+const checkResults = (results) => {
+  if (!results) {
+    gameOver();
+  } else {
+    if (required_clicks.length === player_clicks.length) {
+      click_count = 0;
+      level_count++;
+      player_clicks.length = 0;
+      setTimeout(level, 1000);
+    }
+  }
+};
+
 // Handling button clicks
 
 const handleClick = (e) => {
@@ -105,23 +119,13 @@ const handleClick = (e) => {
     // Compare array results
     const results = compareResults();
 
+    checkResults(results);
+
     // cleaning up button event listeners when a level is cleared to avoid unexpected behavior
     if (click_count >= level_count) {
       game_buttons.forEach((button) => {
         button.removeEventListener("click", handleClick);
       });
-    }
-
-    // Check the comparison of both arrays, if they are not equal. End the game.
-    if (!results) {
-      gameOver();
-    } else {
-      if (required_clicks.length === player_clicks.length) {
-        click_count = 0;
-        level_count++;
-        player_clicks.length = 0;
-        setTimeout(level, 1000);
-      }
     }
   }
 };
