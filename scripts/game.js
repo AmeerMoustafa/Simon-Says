@@ -52,10 +52,9 @@ const compareResults = () => {
   );
 };
 
-// generate a random index and push it to the required clicks array
+// get a random button to flash on screen for the user to click and push it to the required array
 
 const generateSequence = () => {
-  // get a random button to flash on screen for the user to click and push it to the required array
   const random_index = Math.floor(Math.random() * game_buttons.length);
   const selected_button = game_buttons[random_index];
 
