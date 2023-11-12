@@ -126,7 +126,7 @@ const handleClick = (e) => {
   }
 };
 
-// Main that handles the level loop
+// Main function for handling the game loop.
 const level = () => {
   level_title.innerText = `Level ${level_count}`;
 
