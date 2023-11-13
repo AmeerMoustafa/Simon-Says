@@ -13,7 +13,7 @@ The classic memory game with sound, animations and a high score now on the web. 
 - fully functioning sound and animations.
 
 ## What I learned:
-
+- The importance of brainstorming before writing any code.
 - Cleaning up event listeners after use is incredibly important
 - Basics of localstorage
 - Refactor, refactor, refactor
