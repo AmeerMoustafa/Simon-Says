@@ -10,10 +10,11 @@ let click_count = 0;
 let level_count = 1;
 
 // keeping track of the high score
-let high_score = 0;
+let high_score = Number(localStorage.getItem("high-score")) || 0;
 
 // Global Variables to select DOM elements
 const document_body = document.getElementsByTagName("body")[0];
+let current_high_score = document.getElementById("high-score");
 const level_title = document.getElementById("level-title");
 const game_buttons = document.querySelectorAll(".btn");
 
@@ -93,9 +94,11 @@ const gameOver = () => {
 /// Main functions ///
 
 const updateHighScore = () => {
-  let current_high_score = document.getElementById("high-score");
-  level_count > high_score ? high_score++ : null;
-  current_high_score.innerText = `${high_score}`;
+  if (level_count > high_score) {
+    high_score++;
+
+    localStorage.setItem("high-score", high_score);
+  }
 };
 
 // Check the comparison of both arrays, if they are not equal. End the game else continue to the next level.
@@ -151,11 +154,17 @@ const level = () => {
     button.addEventListener("click", handleClick);
     gameStarted = true;
   });
+
+  // Update the current high score on the DOM.
+  current_high_score.innerText = `${high_score}`;
 };
 
 // Initial function to start the game
 const gameStart = () => {
   document_body.addEventListener("keypress", level, { once: true });
+
+  // display current high score
+  current_high_score.innerText = `${high_score}`;
 };
 
 gameStart();
