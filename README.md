@@ -18,3 +18,4 @@ The classic memory game with sound, animations and a high score now on the web. 
 - Basics of localstorage
 - Refactor, refactor, refactor
 - A lot more practice on applying clean code principles and methodologies.
+- More effective debugging using console logs and alerts.
