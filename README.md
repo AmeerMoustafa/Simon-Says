@@ -1,6 +1,7 @@
 # Simon-Says
 
-![image](https://github.com/AmeerMoustafa/Simon-Says/assets/9211143/003d45aa-e88d-4dad-88eb-9374dba13d75)
+![image](https://github.com/AmeerMoustafa/Simon-Says/assets/9211143/06d9d03a-ca50-4223-b82b-157dba3f62f8)
+
 
 ## About:
 
